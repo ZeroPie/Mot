@@ -73,11 +73,38 @@ const instructions2 = new lab.html.Screen({
   },
 })
 
+
+const instructions3 = new lab.html.Screen({
+  title: 'Anleitung',
+  content: `
+  <p>
+  <br> 
+  <br>
+  Zuerst erfolgt ein Probedurchlauf
+  <br>
+  <br>
+  Die Ergebnisse werden nicht gewertet.
+  <br>
+  <br>
+  Drücken Sie die <kbd>Leertaste</kbd> um zu beginnen.
+  <br>
+  </p>
+  `,
+
+  responses: {
+    'keypress(Space)': 'response',
+  },
+})
+
+
+
+
 const MOT = new lab.flow.Sequence({
   content: [
     welcomeScreen,
     instructions1,
     instructions2,
+    instructions3,
     new lab.html.Screen({ content: 'I', timeout: 500 }),
     //new lab.html.Screen({ content: 'walk', timeout: 500 }),
   ],
