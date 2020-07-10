@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let circles = [
   {
     id: 1,
@@ -64,18 +65,50 @@ let circles = [
     color: 200,
   },
 ]
+=======
+const welcomeScreen = new lab.html.Screen({
+  title: 'Welcome',
+  content: `
+  <p> Willkommen zum Experiment:
+  <br>
+  <br>
+  <span> Multiple Objekt Tracking 
+  <br>
+  <br>
+ Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen
+  </p>
+  `,
+
+  responses: {
+    'keypress(Enter)': 'response',
+  },
+})
+>>>>>>> f6449a4ac35bccbd9ed78d5203d7db21ba4cf1b5
 
 const instructions1 = new lab.html.Screen({
   title: 'Anleitung',
   content: `
-  <p class = 'test'> Es erscheinen verschiedene Objekte auf dem Bildschirm.
-  Zählen Sie laut die Anzahl der dunkelblauen Kreise und wiederholen Sie laut die gesamte Anzahl. 
+  <p> Es erscheinen 7 farbige Objekte auf dem Bildschirm:
+  3 Blaue und 4 Grüne Kreise.
+  <br> 
+  <br> 
+  Merken Sie sich welche Kreise blau sind.
+  <br> 
+  <br> 
+  Nach drei Sekunden werden alle Kreise gruen und fangen an sich zufaellig zu bewegen
+  <br> 
+  <br> 
+  Behalten Sie die urspruenglich blauen Kreise im Auge!
+  <br> 
+  <br> 
+  Nach acht Sekunden bleibt alles stehen.
+  <br> 
+  <br> 
+  Klicken Sie jetzt mit der Maus die drei urspruenglich baluen Kreise an.
+  Klicken Sie einen Kreis ihn ihn nicht mehr auszuwaehlen.
   <br> 
   <br>
-  Drücken Sie sofort die <kbd>Leertaste</kbd>.
-  Also zum Beispiel bei vier dunkelblauen Kreisen: 
-  "1, 2, 3, 4, ..., 4 - <kbd>Leertaste</kbd>"
-  Merken Sie sich die gesamte Anzahl pro Bild - diese wird später abgefragt 
+  Sobald Sie den dritten Kreis ausgewaehlt haben erschint die richtige Loesung auf dem Bildschirm
   <br>
   <br>
   Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen  
@@ -89,31 +122,11 @@ const instructions1 = new lab.html.Screen({
   },
 })
 
+
 const instructions2 = new lab.html.Screen({
-  title: 'Anleitung 2',
+  title: 'Anleitung',
   content: `
-  <p> Nach einigen Bildern erscheint eine Eingabemaske.
-  <br> 
-  <br>
-  Tragen Sie jetzt die gemerkten Zahlen in der richtigen Reihenfolge ein.
-  <br>
-  <br>
-  Wenn Sie eine Zahl nicht mehr wissen, lassen Sie das entsprechende Feld frei.
-  <br>
-  <br>
-  Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen
-  <br>
-  `,
-
-  responses: {
-    'keypress(Enter)': 'response',
-  },
-})
-
-const instructions3 = new lab.html.Screen({
-  title: 'Anleitung 3',
-  content: `
-  <p> Zählen Sie laut und sorgfälltig mit und merken Sie sich die Zahlen gut
+  <p>
   <br> 
   <br>
   Wenn Sie fragen haben, merken Sie sich an den Leiter des Experiments
@@ -121,6 +134,7 @@ const instructions3 = new lab.html.Screen({
   <br>
   Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen
   <br>
+  </p>
   `,
 
   responses: {
@@ -128,6 +142,30 @@ const instructions3 = new lab.html.Screen({
   },
 })
 
+
+const instructions3 = new lab.html.Screen({
+  title: 'Anleitung',
+  content: `
+  <p>
+  <br> 
+  <br>
+  Zuerst erfolgt ein Probedurchlauf
+  <br>
+  <br>
+  Die Ergebnisse werden nicht gewertet.
+  <br>
+  <br>
+  Drücken Sie die <kbd>Leertaste</kbd> um zu beginnen.
+  <br>
+  </p>
+  `,
+
+  responses: {
+    'keypress(Space)': 'response',
+  },
+})
+
+<<<<<<< HEAD
 const instructions4 = new lab.html.Screen({
   title: 'Anleitung 3',
   content: `
@@ -232,6 +270,14 @@ const canvasScreen = new lab.canvas.Screen({
 const MOT = new lab.flow.Sequence({
   content: [
     canvasScreen,
+=======
+
+
+
+const MOT = new lab.flow.Sequence({
+  content: [
+    welcomeScreen,
+>>>>>>> f6449a4ac35bccbd9ed78d5203d7db21ba4cf1b5
     instructions1,
     instructions2,
     instructions3,
