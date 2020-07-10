@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 let circles = [
   {
     id: 1,
@@ -65,25 +64,6 @@ let circles = [
     color: 200,
   },
 ]
-=======
-const welcomeScreen = new lab.html.Screen({
-  title: 'Welcome',
-  content: `
-  <p> Willkommen zum Experiment:
-  <br>
-  <br>
-  <span> Multiple Objekt Tracking 
-  <br>
-  <br>
- Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen
-  </p>
-  `,
-
-  responses: {
-    'keypress(Enter)': 'response',
-  },
-})
->>>>>>> f6449a4ac35bccbd9ed78d5203d7db21ba4cf1b5
 
 const instructions1 = new lab.html.Screen({
   title: 'Anleitung',
@@ -122,7 +102,6 @@ const instructions1 = new lab.html.Screen({
   },
 })
 
-
 const instructions2 = new lab.html.Screen({
   title: 'Anleitung',
   content: `
@@ -141,7 +120,6 @@ const instructions2 = new lab.html.Screen({
     'keypress(Enter)': 'response',
   },
 })
-
 
 const instructions3 = new lab.html.Screen({
   title: 'Anleitung',
@@ -165,7 +143,6 @@ const instructions3 = new lab.html.Screen({
   },
 })
 
-<<<<<<< HEAD
 const instructions4 = new lab.html.Screen({
   title: 'Anleitung 3',
   content: `
@@ -270,14 +247,6 @@ const canvasScreen = new lab.canvas.Screen({
 const MOT = new lab.flow.Sequence({
   content: [
     canvasScreen,
-=======
-
-
-
-const MOT = new lab.flow.Sequence({
-  content: [
-    welcomeScreen,
->>>>>>> f6449a4ac35bccbd9ed78d5203d7db21ba4cf1b5
     instructions1,
     instructions2,
     instructions3,
