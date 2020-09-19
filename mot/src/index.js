@@ -8,9 +8,8 @@ import {
   } from "./helpers.js";
   
 
-  export const renderMot = (ts, canvas, context, obj) => {
+  export const renderMot = (ts, canvas, ctx, obj) => {
 
-  const ctx = canvas.getContext("2d");
   canvas.width = 100;
 
   const compose = (...functions) => (args) =>
@@ -140,6 +139,7 @@ import {
   };
   
   const startRound = () => {
+    console.log(obj)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (state.ratio === 1) {
       state.velocity = state.velocity + state.velocity * 0.05;
