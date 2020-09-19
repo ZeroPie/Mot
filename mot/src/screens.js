@@ -1,4 +1,4 @@
-export const anleitung1 = {
+export const instruction1 = {
     title: 'Anleitung',
     content: `
     <p> Es erscheinen 7 farbige Objekte auf dem Bildschirm:
@@ -35,7 +35,7 @@ export const anleitung1 = {
     },
 }
 
-export const anleitung2 = {
+export const instruction2 = {
     title: 'Anleitung',
     content: `
     <p>
@@ -54,7 +54,7 @@ export const anleitung2 = {
     },
 }
 
-export const anleitung3 = {
+export const instruction3 = {
     title: 'Anleitung',
     content: `
     <p>

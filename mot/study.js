@@ -1,5 +1,5 @@
 import { renderMot } from './src/index.js'
-import { anleitung1, anleitung2, anleitung3, finalScreen } from './src/screens.js'
+import { instruction1, instruction2, instruction3, finalScreen } from './src/screens.js'
 
 const scoreScreen = new lab.html.Screen(finalScreen)
 
@@ -12,9 +12,9 @@ const canvasScreen = new lab.canvas.Screen({
 const MOT = new lab.flow.Sequence({
   content: [
     canvasScreen,
-    createScreen(anleitung1),
-    createScreen(anleitung2),
-    createScreen(anleitung3),
+    createScreen(instruction1),
+    createScreen(instruction2),
+    createScreen(instruction3),
     createScreen(finalScreen)
   ],
 })
