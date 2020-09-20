@@ -1,6 +1,6 @@
 export const instruction1 = {
-    title: 'Anleitung',
-    content: `
+  title: 'Anleitung',
+  content: `
     <p> Es erscheinen 7 farbige Objekte auf dem Bildschirm:
     3 Blaue und 4 Grüne Kreise.
     <br> 
@@ -30,14 +30,14 @@ export const instruction1 = {
     
     `,
 
-    responses: {
-        'keypress(Enter)': 'response',
-    },
+  responses: {
+    'keypress(Enter)': 'response'
+  }
 }
 
 export const instruction2 = {
-    title: 'Anleitung',
-    content: `
+  title: 'Anleitung',
+  content: `
     <p>
     <br> 
     <br>
@@ -49,14 +49,14 @@ export const instruction2 = {
     </p>
     `,
 
-    responses: {
-        'keypress(Enter)': 'response',
-    }
+  responses: {
+    'keypress(Enter)': 'response'
+  }
 }
 
 export const instruction3 = {
-    title: 'Anleitung',
-    content: `
+  title: 'Anleitung',
+  content: `
     <p>
     <br> 
     <br>
@@ -70,15 +70,15 @@ export const instruction3 = {
     <br>
     </p>
     `,
-  
-    responses: {
-      'keypress(Space)': 'response',
-    },
+
+  responses: {
+    'keypress(Space)': 'response'
   }
+}
 
 export const finalScreen = {
-    title: 'Ende',
-    content: `
+  title: 'Ende',
+  content: `
     <p>
     <br> 
     <br>
@@ -92,7 +92,7 @@ export const finalScreen = {
     <br>
     </p>
     `,
-    responses: {
-      'keypress(Space)': 'response',
-    }
+  responses: {
+    'keypress(Space)': 'response'
+  }
 }

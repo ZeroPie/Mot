@@ -1,7 +1,12 @@
 import { renderMot } from './src/index.js'
-import { instruction1, instruction2, instruction3, finalScreen } from './src/screens.js'
+import {
+  instruction1,
+  instruction2,
+  instruction3,
+  finalScreen
+} from './src/screens.js'
 
-const createScreen = (screenOptions) => new lab.html.Screen(screenOptions) 
+const createScreen = screenOptions => new lab.html.Screen(screenOptions)
 
 const datastore = new lab.data.Store()
 
@@ -9,10 +14,9 @@ const canvasScreen = new lab.canvas.Screen({
   renderFunction: renderMot(datastore),
   datastore,
   responses: {
-    'keypress(r)': 'red',
-  }  
+    'keypress(r)': 'red'
+  }
 })
-
 
 const MOT = new lab.flow.Sequence({
   content: [
@@ -21,7 +25,7 @@ const MOT = new lab.flow.Sequence({
     createScreen(instruction2),
     createScreen(instruction3),
     createScreen(finalScreen)
-  ],
+  ]
 })
 
 MOT.run()
