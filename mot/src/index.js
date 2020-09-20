@@ -48,9 +48,21 @@ import {
   let circles = createSuffledCircles(7, state.velocity);
   
   const highlightCircle = (x, y) => {
-    if (!state.isRunning) {
-      isCircleInPath(x, y);
+    circles.map((circle) => {
+    if (isIntersect(x, y, circle)) {
+      if (circle.isSelected === false) {
+        circle.color = "white";
+        circle.isSelected = true;
+        state.answers += 1;
+      } else {
+        circle.color = circle.initialColor;
+        circle.isSelected = false;
+        state.answers -= 1;
+      }
     }
+  
+    isCircleInPath(x, y);
+    })
   };
   
   const isCircleInPath = (x, y) => {
@@ -87,30 +99,29 @@ import {
           console.log("end");
         }
       }
-      if (isIntersect(x, y, circle)) {
-        if (circle.isSelected === false) {
-          circle.color = "white";
-          circle.isSelected = true;
-          state.answers += 1;
-        } else {
-          circle.color = circle.initialColor;
-          circle.isSelected = false;
-          state.answers -= 1;
-        }
-      }
+      
       showState();
+      updateScore(109);
       clearCanvas();
       circles.map(drawCircle);
     });
-  
-    function isIntersect(x, y, circle) {
-      return Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r;
-    }
   };
-  
-  canvas.addEventListener("click", (event) =>
-    highlightCircle(event.offsetX, event.offsetY)
-  );
+
+
+  const updateScore = (score) => {
+    datastore.set('score', score)
+    console.log(score)
+  }
+
+  function isIntersect(x, y, circle) {
+    return Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r;
+  }
+
+  canvas.addEventListener("click", (event) => {
+    if (!state.isRunning) {
+      highlightCircle(event.offsetX, event.offsetY)
+    }
+  });
   
   canvas.addEventListener("click", () => console.log(state));
   
@@ -139,9 +150,8 @@ import {
   };
   
   const startRound = () => {
-    datastore.set('points', 500)
+    datastore.set('score', 500)
     console.log('datastore', datastore)
-    console.log(obj)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (state.ratio === 1) {
       state.velocity = state.velocity + state.velocity * 0.05;
