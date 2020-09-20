@@ -22,6 +22,8 @@ import {
   const container = { x: 0, y: 0, w: canvasWidth, h: 1000 };
   
   const state = {
+    velocity: 1,
+    circles: [],
     answers: 0,
     currentRound: 0,
     isRunning: true,
@@ -33,7 +35,6 @@ import {
     fails: 0,
     velocityChangeProbablity: 0.3,
     directionChangeProbablity: 0.3,
-    velocity: 1,
     rounds: [{ number: 0 }],
     correctAnswers: 0
   };
@@ -48,7 +49,11 @@ import {
   let circles = createSuffledCircles(7, state.velocity);
   
   const highlightCircle = (x, y) => {
-    circles.map((circle) => {
+    circles.map(turnWhite(x,y))
+    updateAnswers(); 
+  };
+
+  const turnWhite = (x, y) => (circle) => {
     if (isIntersect(x, y, circle)) {
       if (circle.isSelected === false) {
         circle.color = "white";
@@ -60,13 +65,9 @@ import {
         state.answers -= 1;
       }
     }
+  }
   
-    isCircleInPath(x, y);
-    })
-  };
-  
-  const isCircleInPath = (x, y) => {
-    circles.map((circle) => {
+  const updateAnswers = () => {
       if (state.answers > 2) {
         state.answers = 0;
         state.currentRound += 1;
@@ -104,7 +105,6 @@ import {
       updateScore(109);
       clearCanvas();
       circles.map(drawCircle);
-    });
   };
 
 
@@ -152,7 +152,9 @@ import {
   const startRound = () => {
     datastore.set('score', 500)
     console.log('datastore', datastore)
+    console.log('state', state)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+    
     if (state.ratio === 1) {
       state.velocity = state.velocity + state.velocity * 0.05;
     }
