@@ -11,7 +11,7 @@ export const instruction1 = {
     Nach drei Sekunden werden alle Kreise gruen und fangen an sich zufaellig zu bewegen
     <br> 
     <br> 
-    Behalten Sie die urspruenglich blauen Kreise im Auge!
+    Behalten Sie die ursprünglich blauen Kreise im Auge!
     <br> 
     <br> 
     Nach acht Sekunden bleibt alles stehen.
@@ -51,7 +51,7 @@ export const instruction2 = {
 
     responses: {
         'keypress(Enter)': 'response',
-    },
+    }
 }
 
 export const instruction3 = {

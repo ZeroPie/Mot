@@ -8,7 +8,7 @@ import {
   } from "./helpers.js";
   
 
-  export const renderMot = (ts, canvas, ctx, obj) => {
+  export const renderMot = (datastore) => (ts, canvas, ctx, obj) => {
 
   canvas.width = 100;
 
@@ -139,6 +139,8 @@ import {
   };
   
   const startRound = () => {
+    datastore.set('points', 500)
+    console.log('datastore', datastore)
     console.log(obj)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     if (state.ratio === 1) {
