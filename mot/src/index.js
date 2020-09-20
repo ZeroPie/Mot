@@ -4,7 +4,10 @@ import {
     create2DCircle,
     createCircleMovement,
     createStateInfo,
-    getNumberOfCorrectAnswers
+    getNumberOfCorrectAnswers,
+    isIntersect,
+    toggleWhiteFill,
+    getNumberOfSelectedCircles
   } from "./helpers.js";
   
 
@@ -28,10 +31,10 @@ import {
     currentRound: 0,
     isRunning: true,
     animationFrameReq: "",
-    ratio: 0,
+    correctRatio: 0,
     score: 500,
     tries: 2,
-    moveTime: 7000,
+    moveTime: 1000,
     fails: 0,
     velocityChangeProbablity: 0.3,
     directionChangeProbablity: 0.3,
@@ -48,30 +51,14 @@ import {
   
   let circles = createSuffledCircles(7, state.velocity);
   
-  const highlightCircle = (x, y) => {
-    circles.map(turnWhite(x,y))
-    updateAnswers(); 
-  };
-
-  const turnWhite = (x, y) => (circle) => {
-    if (isIntersect(x, y, circle)) {
-      if (circle.isSelected === false) {
-        circle.color = "white";
-        circle.isSelected = true;
-        state.answers += 1;
-      } else {
-        circle.color = circle.initialColor;
-        circle.isSelected = false;
-        state.answers -= 1;
-      }
-    }
-  }
-  
   const updateAnswers = () => {
+
+      state.answers = circles.reduce(getNumberOfSelectedCircles, 0)
+
       if (state.answers > 2) {
         state.answers = 0;
         state.currentRound += 1;
-        state.ratio = state.correctAnswers / 3;
+        state.correctRatio = state.correctAnswers / 3;
         state.correctAnswers = circles.reduce(getNumberOfCorrectAnswers, 0);
   
         if (state.correctAnswers === 3) {
@@ -113,15 +100,15 @@ import {
     console.log(score)
   }
 
-  function isIntersect(x, y, circle) {
-    return Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r;
-  }
-
-  canvas.addEventListener("click", (event) => {
+  const handleClick = ({offsetX : x, offsetY: y}) => {
     if (!state.isRunning) {
-      highlightCircle(event.offsetX, event.offsetY)
+      highlightAnswers(x,y)
+      updateAnswers(); 
     }
-  });
+  }
+  canvas.addEventListener("click", handleClick)
+
+  const highlightAnswers = (x, y) => circles.filter(circle => isIntersect(x,y, circle)).map(toggleWhiteFill)
   
   canvas.addEventListener("click", () => console.log(state));
   
@@ -155,7 +142,7 @@ import {
     console.log('state', state)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     
-    if (state.ratio === 1) {
+    if (state.correctRatio === 1) {
       state.velocity = state.velocity + state.velocity * 0.05;
     }
   

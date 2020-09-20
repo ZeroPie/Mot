@@ -138,13 +138,36 @@ const resizeCanvas = () => {
     );
   };
   
-  export const getNumberOfCorrectAnswers = (acc, current) => {
+
+const isCorrect = ({ initialColor, isSelected }) =>
+  isSelected && initialColor === "blue";
+
+
+const isSelected = ({ isSelected }) => isSelected 
+
+
+export const getNumberOfCorrectAnswers = (acc, current) => {
     if (isCorrect(current)) {
       acc += 1;
     }
     return acc;
-  };
+};
   
-  const isCorrect = ({ initialColor, isSelected }) =>
-    isSelected && initialColor === "blue";
-  
+export const getNumberOfSelectedCircles = (acc, current) => {
+  if (isSelected(current)) {
+    acc += 1;
+  }
+  return acc;
+};
+    
+export const isIntersect = (x, y, circle) => Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r;
+
+export const toggleWhiteFill = (circle) => {
+  if (circle.isSelected === false) {
+    circle.color = "white";
+    circle.isSelected = true;
+  } else {
+    circle.color = circle.initialColor;
+    circle.isSelected = false;
+  }
+}
