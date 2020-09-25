@@ -11,16 +11,14 @@ import {
 } from './helpers.js'
 
 export const renderMot = datastore => (ts, canvas, ctx, obj) => {
-  canvas.width = 100
-
   const compose = (...functions) => args =>
     functions.reduceRight((arg, fn) => fn(arg), args)
 
   canvas.classList.add('canvas')
 
-  let canvasWidth = (canvas.width = 1200)
+  let canvasWidth = (canvas.width = 1600)
   let canvasHeight = (canvas.height = 1000)
-  const container = { x: 0, y: 0, w: canvasWidth, h: 1000 }
+  const container = { x: 0, y: 0, w: canvasWidth, h: canvasHeight }
 
   const state = {
     velocity: 1,
@@ -49,7 +47,13 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
 
   let circles = createSuffledCircles(7, state.velocity)
 
-  const updateAnswers = () => {
+  const evalAnswers = answers => {
+    if (answers > 2) {
+      state.answers = 0
+    }
+  }
+
+  const updateState = () => {
     state.answers = circles.reduce(getNumberOfSelectedCircles, 0)
 
     if (state.answers > 2) {
@@ -99,7 +103,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   const handleClick = ({ offsetX: x, offsetY: y }) => {
     if (!state.isRunning) {
       highlightAnswers(x, y)
-      updateAnswers()
+      updateState()
     }
   }
   canvas.addEventListener('click', handleClick)
