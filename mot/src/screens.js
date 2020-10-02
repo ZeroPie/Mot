@@ -93,6 +93,6 @@ export const finalScreen = {
     </p>
     `,
   responses: {
-    'keypress(Space)': 'response'
+    'keypress(Enter)': 'response'
   }
 }
