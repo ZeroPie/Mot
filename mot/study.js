@@ -21,10 +21,10 @@ const canvasScreen = new lab.canvas.Screen({
 
 const MOT = new lab.flow.Sequence({
   content: [
-    canvasScreen,
     createScreen(instruction1),
     createScreen(instruction2),
     createScreen(instruction3),
+    canvasScreen,
     createScreen(finalScreen)
   ]
 })
