@@ -3,6 +3,9 @@ const resizeCanvas = () => {
   canvasWidth = window.innerWidth
 }
 
+export const compose = (...functions) => args =>
+  functions.reduceRight((arg, fn) => fn(arg), args)
+
 const createRandomPos = (min = 10, max = 600) =>
   Math.trunc(Math.random() * (max - min) + min)
 
@@ -115,7 +118,7 @@ export const createStateInfo = ctx => state => () => {
     currentRound = 0
   } = state
   ctx.font = '20px'
-  ctx.fillStyle = 'grey'
+  ctx.fillStyle = 'orange'
   ctx.fillText(
     `isRunning: ${isRunning}
     score: ${score}

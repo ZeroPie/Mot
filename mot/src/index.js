@@ -7,24 +7,21 @@ import {
   getNumberOfCorrectAnswers,
   isIntersect,
   toggleWhiteFill,
+  compose,
   getNumberOfSelectedCircles
 } from './helpers.js'
 
 export const renderMot = datastore => (ts, canvas, ctx, obj) => {
-  const compose = (...functions) => args =>
-    functions.reduceRight((arg, fn) => fn(arg), args)
-
   canvas.classList.add('canvas')
 
-  canvas.webkitRequestFullScreen()
-
+  //canvas.webkitRequestFullScreen()
   let canvasWidth = canvas.width
   let canvasHeight = canvas.height
 
   const container = { x: 0, y: 0, w: canvasWidth, h: canvasHeight }
 
   const state = {
-    velocity: 5,
+    velocity: 1,
     circles: [],
     answers: 0,
     currentRound: 0,
@@ -33,7 +30,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     correctRatio: 0,
     score: 500,
     tries: 2,
-    moveTime: 8000,
+    moveTime: 1000,
     fails: 0,
     velocityChangeProbablity: 0.3,
     directionChangeProbablity: 0.3,
@@ -53,51 +50,62 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   const advanceLvl = () => {
     state.fails = 0
     state.tries = 2
-    state.velocity *= 2
+    state.velocity *= 1.05
+    state.score += 15
   }
+
+  const looseLife = () => {
+    state.fails += 1
+    if (state.fails >= 2) {
+      state.tries -= 1
+    }
+  }
+
+  const setupNextRound = () => {
+    state.answers = 0
+    state.currentRound += 1
+    state.circles = createSuffledCircles(7, state.velocity)
+    state.isRunning = true
+    state.correctAnswers = 0
+  }
+
+  const updateRound = () => {
+    state.correctRatio = state.correctAnswers / 3
+    state.correctAnswers = state.circles.reduce(getNumberOfCorrectAnswers, 0)
+  }
+
   const evalAnswers = () => {
     state.answers = state.circles.reduce(getNumberOfSelectedCircles, 0)
 
+    if (state.answers < 3) {
+      return
+    }
     // Answered 3 times End Answering Phase
-    if (state.answers === 3) {
-      state.answers = 0
-      state.currentRound += 1
-      state.correctRatio = state.correctAnswers / 3
-      state.correctAnswers = state.circles.reduce(getNumberOfCorrectAnswers, 0)
 
-      if (state.correctAnswers === 3) {
-        advanceLvl()
-      }
+    updateRound()
 
-      if (state.correctAnswers < 3) {
-        state.fails += 1
-        if (state.fails >= 2) {
-          state.tries -= 1
-        }
-      }
+    state.correctAnswers === 3 ? advanceLvl() : looseLife()
 
-      state.rounds.push({
-        number: state.currentRound,
-        correctAnswers: state.correctAnswers
-      })
+    state.rounds.push({
+      number: state.currentRound,
+      correctAnswers: state.correctAnswers
+    })
 
-      state.circles = createSuffledCircles(7, state.velocity)
-      state.isRunning = true
-      state.correctAnswers = 0
-      if (state.tries > 0) {
-        startRound()
-      } else {
-        alert('Ende')
-        clearCanvas()
-      }
+    setupNextRound()
+
+    if (state.tries > 0) {
+      startRound()
+    } else {
+      alert('Ende')
+      clearCanvas()
     }
   }
 
   const updateState = () => {
     evalAnswers()
     showState()
-    updateScore(109)
-    clearCanvas()
+    updateScore(state.score)
+
     state.circles.map(drawCircle)
   }
 
@@ -121,8 +129,6 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
       .filter(circle => isIntersect(x, y, circle))
       .map(toggleWhiteFill)
 
-  canvas.addEventListener('click', () => console.log(state))
-
   const run = () => {
     clearCanvas()
 
@@ -134,34 +140,37 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     }
   }
 
-  const clearCanvas = () => {
+  const clearCanvas = (fillStyle = 'black') => {
     const { x, y, w, h } = container
-    ctx.fillStyle = 'black'
+    ctx.fillStyle = fillStyle
     ctx.fillRect(x, y, w, h)
   }
 
-  const stop = (intervalId, velChangeId) => {
-    cancelAnimationFrame(state.animationFrameReq)
-    clearInterval(intervalId)
-    clearInterval(velChangeId)
+  const stop = (directionChangeId, velolcityChangeId) => {
     state.isRunning = false
+    clearCanvas('grey')
+    state.circles.map(drawCircle)
+    cancelAnimationFrame(state.animationFrameReq)
+    clearInterval(directionChangeId)
+    clearInterval(velolcityChangeId)
   }
 
   const startRound = () => {
-    datastore.set('score', 500)
+    datastore.set('score', state.score)
     console.log('datastore', datastore)
-    console.log('state', state)
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-
-    if (state.correctRatio === 1) {
-      state.velocity = state.velocity + state.velocity * 0.05
-    }
 
     requestAnimationFrame(run)
     state.isRunning = true
-    const dirChangeId = setInterval(randomDirectionChange, state.moveTime / 4)
-    const velChangeId = setInterval(randomVelocityChange, state.moveTime / 4)
-    setTimeout(() => stop(dirChangeId, velChangeId), state.moveTime)
+    const directionChangeId = setInterval(
+      randomDirectionChange,
+      state.moveTime / 4
+    )
+    const velolcityChangeId = setInterval(
+      randomVelocityChange,
+      state.moveTime / 4
+    )
+    setTimeout(() => stop(directionChangeId, velolcityChangeId), state.moveTime)
 
     setTimeout(turnAllCirclesGreen, state.moveTime / 2)
   }
