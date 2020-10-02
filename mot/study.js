@@ -15,7 +15,8 @@ const canvasScreen = new lab.canvas.Screen({
   datastore,
   responses: {
     'keypress(r)': 'red'
-  }
+  },
+  viewport: [0]
 })
 
 const MOT = new lab.flow.Sequence({

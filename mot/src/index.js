@@ -16,12 +16,15 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
 
   canvas.classList.add('canvas')
 
-  let canvasWidth = (canvas.width = 1600)
-  let canvasHeight = (canvas.height = 1000)
+  canvas.webkitRequestFullScreen()
+
+  let canvasWidth = canvas.width
+  let canvasHeight = canvas.height
+
   const container = { x: 0, y: 0, w: canvasWidth, h: canvasHeight }
 
   const state = {
-    velocity: 1,
+    velocity: 5,
     circles: [],
     answers: 0,
     currentRound: 0,
@@ -30,7 +33,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     correctRatio: 0,
     score: 500,
     tries: 2,
-    moveTime: 1000,
+    moveTime: 8000,
     fails: 0,
     velocityChangeProbablity: 0.3,
     directionChangeProbablity: 0.3,
@@ -45,26 +48,25 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   const showCircleStats = createCircleStats(ctx)
   //window.addEventListener("resize", resizeCanvas);
 
-  let circles = createSuffledCircles(7, state.velocity)
+  state.circles = createSuffledCircles(7, state.velocity)
 
-  const evalAnswers = answers => {
-    if (answers > 2) {
-      state.answers = 0
-    }
+  const advanceLvl = () => {
+    state.fails = 0
+    state.tries = 2
+    state.velocity *= 2
   }
+  const evalAnswers = () => {
+    state.answers = state.circles.reduce(getNumberOfSelectedCircles, 0)
 
-  const updateState = () => {
-    state.answers = circles.reduce(getNumberOfSelectedCircles, 0)
-
-    if (state.answers > 2) {
+    // Answered 3 times End Answering Phase
+    if (state.answers === 3) {
       state.answers = 0
       state.currentRound += 1
       state.correctRatio = state.correctAnswers / 3
-      state.correctAnswers = circles.reduce(getNumberOfCorrectAnswers, 0)
+      state.correctAnswers = state.circles.reduce(getNumberOfCorrectAnswers, 0)
 
       if (state.correctAnswers === 3) {
-        state.fails = 0
-        state.tries = 2
+        advanceLvl()
       }
 
       if (state.correctAnswers < 3) {
@@ -79,20 +81,24 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
         correctAnswers: state.correctAnswers
       })
 
-      circles = createSuffledCircles(7, state.velocity)
+      state.circles = createSuffledCircles(7, state.velocity)
       state.isRunning = true
       state.correctAnswers = 0
       if (state.tries > 0) {
         startRound()
       } else {
-        console.log('end')
+        alert('Ende')
+        clearCanvas()
       }
     }
+  }
 
+  const updateState = () => {
+    evalAnswers()
     showState()
     updateScore(109)
     clearCanvas()
-    circles.map(drawCircle)
+    state.circles.map(drawCircle)
   }
 
   const updateScore = score => {
@@ -104,12 +110,16 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     if (!state.isRunning) {
       highlightAnswers(x, y)
       updateState()
+      showState()
     }
   }
+
   canvas.addEventListener('click', handleClick)
 
   const highlightAnswers = (x, y) =>
-    circles.filter(circle => isIntersect(x, y, circle)).map(toggleWhiteFill)
+    state.circles
+      .filter(circle => isIntersect(x, y, circle))
+      .map(toggleWhiteFill)
 
   canvas.addEventListener('click', () => console.log(state))
 
@@ -120,7 +130,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
 
     if (state.isRunning) {
       state.animationFrameReq = requestAnimationFrame(run)
-      circles.map(animate)
+      state.circles.map(animate)
     }
   }
 
@@ -157,10 +167,10 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   }
 
   const turnAllCirclesGreen = () =>
-    circles.map(circle => (circle.color = 'green'))
+    state.circles.map(circle => (circle.color = 'green'))
 
   const randomVelocityChange = () => {
-    circles.map(circle => {
+    state.circles.map(circle => {
       if (Math.random() < state.velocityChangeProbablity) {
         circle.vy *= 2
         circle.vx *= 2
@@ -173,7 +183,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   }
 
   const randomDirectionChange = () => {
-    circles.map(circle => {
+    state.circles.map(circle => {
       const { vx, vy } = circle
       if (Math.random() < state.directionChangeProbablity) {
         if (Math.random() < state.directionChangeProbablity) {
