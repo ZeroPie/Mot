@@ -98,7 +98,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     } else {
       clearCanvas('white')
       datastore.commit('score', state.score)
-      alert('Ende')
+      alert(`Ende. Punkteanzahl: ${state.score}`)
     }
   }
 
