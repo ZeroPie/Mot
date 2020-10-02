@@ -96,14 +96,15 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     if (state.tries > 0) {
       startRound()
     } else {
+      clearCanvas('white')
+      datastore.commit('score', state.score)
       alert('Ende')
-      clearCanvas()
     }
   }
 
   const updateState = () => {
     evalAnswers()
-    showState()
+    //showState()
     updateScore(state.score)
 
     state.circles.map(drawCircle)
@@ -118,7 +119,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     if (!state.isRunning) {
       highlightAnswers(x, y)
       updateState()
-      showState()
+      //showState()
     }
   }
 
@@ -132,7 +133,11 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   const run = () => {
     clearCanvas()
 
-    const animate = compose(showState, drawCircle, moveCircle)
+    const animate = compose(
+      //showState,
+      drawCircle,
+      moveCircle
+    )
 
     if (state.isRunning) {
       state.animationFrameReq = requestAnimationFrame(run)
