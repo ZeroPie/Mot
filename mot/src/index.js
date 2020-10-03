@@ -11,12 +11,16 @@ import {
   getNumberOfSelectedCircles
 } from './helpers.js'
 
-export const renderMot = datastore => (ts, canvas, ctx, obj) => {
+export const renderMot = (ts, canvas, ctx, screen) => {
   canvas.classList.add('canvas')
 
-  //canvas.webkitRequestFullScreen()
-  let canvasWidth = canvas.width
-  let canvasHeight = canvas.height
+  const containerEle = document.getElementById('container')
+  const main = document.getElementById('main')
+  containerEle.classList.add('-frameless')
+  main.classList.add('-frameless')
+
+  let canvasWidth = (canvas.width = containerEle.offsetWidth)
+  let canvasHeight = (canvas.height = containerEle.offsetHeight)
 
   const container = { x: 0, y: 0, w: canvasWidth, h: canvasHeight }
 
@@ -30,7 +34,7 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     correctRatio: 0,
     score: 500,
     tries: 2,
-    moveTime: 7000,
+    moveTime: 1000,
     fails: 0,
     velocityChangeProbablity: 0.3,
     directionChangeProbablity: 0.3,
@@ -43,7 +47,6 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   const showState = createStateInfo(ctx)(state)
 
   const showCircleStats = createCircleStats(ctx)
-  //window.addEventListener("resize", resizeCanvas);
 
   state.circles = createSuffledCircles(7, state.velocity)
 
@@ -80,7 +83,6 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
     if (state.answers < 3) {
       return
     }
-    // Answered 3 times End Answering Phase
 
     updateRound()
 
@@ -97,29 +99,26 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
       startRound()
     } else {
       clearCanvas('white')
-      datastore.commit('score', state.score)
-      alert(`Ende. Punkteanzahl: ${state.score}`)
+      screen.options.datastore.set('score', state.score)
+      screen.end()
     }
   }
 
   const updateState = () => {
     evalAnswers()
-    //showState()
     updateScore(state.score)
 
     state.circles.map(drawCircle)
   }
 
   const updateScore = score => {
-    datastore.set('score', score)
-    console.log(score)
+    screen.options.datastore.set('score', score)
   }
 
   const handleClick = ({ offsetX: x, offsetY: y }) => {
     if (!state.isRunning) {
       highlightAnswers(x, y)
       updateState()
-      //showState()
     }
   }
 
@@ -161,8 +160,8 @@ export const renderMot = datastore => (ts, canvas, ctx, obj) => {
   }
 
   const startRound = () => {
-    datastore.set('score', state.score)
-    console.log('datastore', datastore)
+    screen.options.datastore.set('score', state.score)
+
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
 
     requestAnimationFrame(run)

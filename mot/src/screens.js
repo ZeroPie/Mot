@@ -24,14 +24,13 @@ export const instruction1 = {
     Sobald Sie den dritten Kreis ausgewaehlt haben erschint die richtige Loesung auf dem Bildschirm
     <br>
     <br>
-    Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen  
+    Drücken Sie <kbd>Leertaste</kbd> um zum nächsten Feld zu gelangen  
     </p>
-  
-    
+
     `,
 
   responses: {
-    'keypress(Enter)': 'response'
+    'keypress(Space)': 'response'
   }
 }
 
@@ -41,21 +40,22 @@ export const instruction2 = {
     <p>
     <br> 
     <br>
-    Wenn Sie fragen haben, merken Sie sich an den Leiter des Experiments
+    Wenn Sie fragen haben, merken Si e sich an den Leiter des Experiments
     <br>
     <br>
-    Drücken Sie <kbd>Enter</kbd> um zum nächsten Feld zu gelangen
+    Drücken Sie <kbd>Leertaste</kbd> um zum nächsten Feld zu gelangen
     <br>
     </p>
     `,
+  plugins: [new lab.plugins.Logger()],
 
   responses: {
-    'keypress(Enter)': 'response'
+    'keypress(Space)': 'response'
   }
 }
 
 export const instruction3 = {
-  title: 'Anleitung',
+  title: 'Probedurchlauf',
   content: `
     <p>
     <br> 
@@ -76,7 +76,29 @@ export const instruction3 = {
   }
 }
 
-export const finalScreen = {
+export const instruction4 = {
+  title: 'Testdurchlauf',
+  content: `
+    <p>
+    <br> 
+    <br>
+    Jetzt erfolgt der Testdurchlauf
+    <br>
+    <br>
+    Die Ergebnisse werden jetzt gewertet.
+    <br>
+    <br>
+    Drücken Sie die <kbd>Leertaste</kbd> um zu beginnen.
+    <br>
+    </p>
+    `,
+
+  responses: {
+    'keypress(Space)': 'response'
+  }
+}
+
+export const pointsScreen = score => ({
   title: 'Ende',
   content: `
     <p>
@@ -85,14 +107,21 @@ export const finalScreen = {
     Ihre Punktanzahl:
     <br>
     <br>
-    {}
+    ${score}
     <br>
     <br>
-    Drücken Sie die <kbd>Escape</kbd> Taste um das Experiment zu beenden.
+    Drücken Sie die <kbd>Leertaste</kbd> Taste um das Experiment zu beenden.
     <br>
     </p>
     `,
   responses: {
-    'keypress(Enter)': 'response'
+    'keypress(Space)': 'response'
   }
+})
+
+export const finalScreen = {
+  title: 'Danke',
+  content: `Danke`,
+  plugins: [new lab.plugins.Logger()],
+  timeout: 500
 }

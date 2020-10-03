@@ -3,21 +3,24 @@ import {
   instruction1,
   instruction2,
   instruction3,
+  pointsScreen,
   finalScreen
 } from './src/screens.js'
 
 const createScreen = screenOptions => new lab.html.Screen(screenOptions)
 
-const datastore = new lab.data.Store()
-
 const canvasScreen = new lab.canvas.Screen({
-  renderFunction: renderMot(datastore),
-  datastore,
+  renderFunction: renderMot,
   responses: {
-    'keypress(r)': 'red'
-  },
-  viewport: [0]
+    'keypress(r)': ''
+  }
+  //viewport: [0],
+  //viewportScale: 1,
+  //translateOrigin: false
 })
+
+const containerEle = document.getElementById('container')
+containerEle.webkitRequestFullScreen()
 
 const MOT = new lab.flow.Sequence({
   content: [
@@ -25,6 +28,7 @@ const MOT = new lab.flow.Sequence({
     createScreen(instruction2),
     createScreen(instruction3),
     canvasScreen,
+    createScreen(pointsScreen(1000)),
     createScreen(finalScreen)
   ]
 })
