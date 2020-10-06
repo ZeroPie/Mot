@@ -5,6 +5,7 @@ const initialState = {
   currentRound: 0,
   isRunning: true,
   animationFrameReq: '',
+  isProbe: false,
   correctRatio: 0,
   score: 500,
   tries: 2,

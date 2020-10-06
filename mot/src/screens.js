@@ -1,4 +1,5 @@
 import FullScreen from './FullScreen.js'
+import CustomJs from './CustomJS.js'
 
 export const instruction1 = {
   title: 'Anleitung',
@@ -94,13 +95,18 @@ export const instruction4 = {
     <br>
     </p>
     `,
-
   responses: {
     'keypress(Space)': 'response'
   }
 }
 
-export const pointsScreen = score => ({
+export const motCanvasScreen = {
+  responses: {
+    'keypress(r)': 'r'
+  }
+}
+
+export const pointsScreen = {
   title: 'Ende',
   content: `
     <p>
@@ -109,17 +115,24 @@ export const pointsScreen = score => ({
     Ihre Punktanzahl:
     <br>
     <br>
-    ${score}
+    <span id="score">  </span>
     <br>
     <br>
     Drücken Sie die <kbd>Leertaste</kbd> Taste um das Experiment zu beenden.
     <br>
     </p>
     `,
+  plugins: [
+    new CustomJs(() => {
+      const scoreElement = document.getElementById('score')
+      console.log(scoreElement)
+      console.log(state.score)
+    })
+  ],
   responses: {
     'keypress(Space)': 'response'
   }
-})
+}
 
 export const finalScreen = {
   title: 'Danke',

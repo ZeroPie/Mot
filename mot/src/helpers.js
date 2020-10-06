@@ -151,17 +151,25 @@ export const getNumberOfSelectedCircles = (acc, current) => {
 }
 
 export const isIntersect = (x, y, circle) =>
-  Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r
+  Math.sqrt((x - circle.x) ** 2 + (y - circle.y) ** 2) < circle.r + 1
 
 export const toggleWhiteFill = circle => {
   if (circle.isSelected === false) {
     circle.color = 'white'
     circle.isSelected = true
   } else {
-    circle.color = circle.initialColor
+    circle.color = 'green'
     circle.isSelected = false
   }
 }
 
 export const scriptExists = url =>
   document.querySelectorAll(`script[src="${url}"]`).length > 0
+
+export const makeFullScreenContainer = () => {
+  const containerEle = document.getElementById('container')
+  containerEle.classList.add('-frameless')
+  const main = document.getElementById('main')
+  main.classList.add('-frameless')
+  return containerEle
+}

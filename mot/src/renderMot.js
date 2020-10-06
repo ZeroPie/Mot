@@ -8,18 +8,18 @@ import {
   isIntersect,
   toggleWhiteFill,
   compose,
-  getNumberOfSelectedCircles
+  getNumberOfSelectedCircles,
+  makeFullScreenContainer
 } from './helpers.js'
 
-const makeFullScreenContainer = () => {
-  const containerEle = document.getElementById('container')
-  const main = document.getElementById('main')
-  containerEle.classList.add('-frameless')
-  main.classList.add('-frameless')
-  return containerEle
-}
-
+/**
+ * @param  {number} ts - time
+ * @param  {HTMLElement} canvas
+ * @param  {CanvasRenderingContext2D} ctx
+ * @param  {LabJsScreen} screen
+ */
 export const renderMot = state => (ts, canvas, ctx, screen) => {
+  console.log(state)
   canvas.classList.add('canvas')
   const containerEle = makeFullScreenContainer()
 
@@ -30,9 +30,11 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
 
   const drawCircle = create2DCircle(ctx)
   const moveCircle = createCircleMovement(container)
-  const showState = createStateInfo(ctx)(state)
 
-  const showCircleStats = createCircleStats(ctx)
+  /** [1] Can be used for interactive debugging
+   * const showState = createStateInfo(ctx)(state)
+   * const showCircleStats = createCircleStats(ctx)
+   **/
 
   state.circles = createSuffledCircles(7, state.velocity)
 
@@ -50,7 +52,7 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
     }
   }
 
-  const setupNextRound = () => {
+  const setupState = () => {
     state.answers = 0
     state.currentRound += 1
     state.circles = createSuffledCircles(7, state.velocity)
@@ -79,28 +81,30 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
       correctAnswers: state.correctAnswers
     })
 
-    setupNextRound()
+    state.tries > 0 ? startRound() : finishGame()
 
-    if (state.tries > 0) {
-      startRound()
-    } else {
-      clearCanvas('white')
-      screen.options.datastore.set('score', state.score)
-      const resultJson = study.options.datastore.exportJson()
-      screen.end()
+    // Participants Trial which is not counted
+    if (state.isProbe) {
+      if (state.currentRound > 3) {
+        screen.end()
+      }
     }
+  }
+
+  const finishGame = () => {
+    screen.options.datastore.set('score', state.score)
+    screen.end()
   }
 
   const updateState = () => {
     evalAnswers()
-    updateScore(state.score)
     state.circles.map(drawCircle)
   }
 
-  const updateScore = score => {
-    screen.options.datastore.set('score', score)
-  }
-
+  /**
+   * @param  {number} offsetX
+   * @param  {number} offsetY
+   */
   const handleClick = ({ offsetX: x, offsetY: y }) => {
     if (!state.isRunning) {
       highlightAnswers(x, y)
@@ -110,6 +114,10 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
 
   canvas.addEventListener('click', handleClick)
 
+  /**
+   * @param  {number} x
+   * @param  {number} y
+   */
   const highlightAnswers = (x, y) =>
     state.circles
       .filter(circle => isIntersect(x, y, circle))
@@ -119,7 +127,7 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
     clearCanvas()
 
     const animate = compose(
-      //showState,
+      //[1] showState,
       drawCircle,
       moveCircle
     )
@@ -129,7 +137,9 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
       state.circles.map(animate)
     }
   }
-
+  /**
+   * @param  {string} fillStyle='black'
+   */
   const clearCanvas = (fillStyle = 'black') => {
     const { x, y, w, h } = container
     ctx.fillStyle = fillStyle
@@ -146,12 +156,11 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
   }
 
   const startRound = () => {
+    setupState()
     screen.options.datastore.set('score', state.score)
-
     ctx.clearRect(0, 0, canvasWidth, canvasHeight)
-
     requestAnimationFrame(run)
-    state.isRunning = true
+
     const directionChangeId = setInterval(
       randomDirectionChange,
       state.moveTime / 4
