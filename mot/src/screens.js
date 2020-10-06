@@ -1,3 +1,5 @@
+import FullScreen from './FullScreen.js'
+
 export const instruction1 = {
   title: 'Anleitung',
   content: `
@@ -28,6 +30,7 @@ export const instruction1 = {
     </p>
 
     `,
+  plugins: [new FullScreen()],
 
   responses: {
     'keypress(Space)': 'response'
@@ -47,7 +50,6 @@ export const instruction2 = {
     <br>
     </p>
     `,
-  plugins: [new lab.plugins.Logger()],
 
   responses: {
     'keypress(Space)': 'response'
@@ -122,6 +124,5 @@ export const pointsScreen = score => ({
 export const finalScreen = {
   title: 'Danke',
   content: `Danke`,
-  plugins: [new lab.plugins.Logger()],
   timeout: 500
 }

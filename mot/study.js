@@ -1,4 +1,4 @@
-import { renderMot } from './src/index.js'
+import { renderMot } from './src/renderMot.js'
 import {
   instruction1,
   instruction2,
@@ -7,20 +7,19 @@ import {
   finalScreen
 } from './src/screens.js'
 
+import initialState from './src/initialState.js'
+import { scriptExists } from './src/helpers.js'
+
+const state = { ...initialState }
+
 const createScreen = screenOptions => new lab.html.Screen(screenOptions)
 
 const canvasScreen = new lab.canvas.Screen({
-  renderFunction: renderMot,
+  renderFunction: renderMot(state),
   responses: {
-    'keypress(r)': ''
+    'keypress(r)': 'r'
   }
-  //viewport: [0],
-  //viewportScale: 1,
-  //translateOrigin: false
 })
-
-const containerEle = document.getElementById('container')
-containerEle.webkitRequestFullScreen()
 
 const MOT = new lab.flow.Sequence({
   content: [
@@ -28,9 +27,16 @@ const MOT = new lab.flow.Sequence({
     createScreen(instruction2),
     createScreen(instruction3),
     canvasScreen,
-    createScreen(pointsScreen(1000)),
+    createScreen(pointsScreen(state.score)),
     createScreen(finalScreen)
   ]
 })
 
 MOT.run()
+
+MOT.on('end', () => {
+  if (scriptExists('jatos')) {
+    jatos.submitResultData({ score: state.score })
+    jatos.endStudy()
+  }
+})

@@ -162,3 +162,6 @@ export const toggleWhiteFill = circle => {
     circle.isSelected = false
   }
 }
+
+export const scriptExists = url =>
+  document.querySelectorAll(`script[src="${url}"]`).length > 0

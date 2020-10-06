@@ -11,36 +11,22 @@ import {
   getNumberOfSelectedCircles
 } from './helpers.js'
 
-export const renderMot = (ts, canvas, ctx, screen) => {
-  canvas.classList.add('canvas')
-
+const makeFullScreenContainer = () => {
   const containerEle = document.getElementById('container')
   const main = document.getElementById('main')
   containerEle.classList.add('-frameless')
   main.classList.add('-frameless')
+  return containerEle
+}
+
+export const renderMot = state => (ts, canvas, ctx, screen) => {
+  canvas.classList.add('canvas')
+  const containerEle = makeFullScreenContainer()
 
   let canvasWidth = (canvas.width = containerEle.offsetWidth)
   let canvasHeight = (canvas.height = containerEle.offsetHeight)
 
   const container = { x: 0, y: 0, w: canvasWidth, h: canvasHeight }
-
-  const state = {
-    velocity: 1,
-    circles: [],
-    answers: 0,
-    currentRound: 0,
-    isRunning: true,
-    animationFrameReq: '',
-    correctRatio: 0,
-    score: 500,
-    tries: 2,
-    moveTime: 1000,
-    fails: 0,
-    velocityChangeProbablity: 0.3,
-    directionChangeProbablity: 0.3,
-    rounds: [{ number: 0 }],
-    correctAnswers: 0
-  }
 
   const drawCircle = create2DCircle(ctx)
   const moveCircle = createCircleMovement(container)
@@ -100,6 +86,7 @@ export const renderMot = (ts, canvas, ctx, screen) => {
     } else {
       clearCanvas('white')
       screen.options.datastore.set('score', state.score)
+      const resultJson = study.options.datastore.exportJson()
       screen.end()
     }
   }
@@ -107,7 +94,6 @@ export const renderMot = (ts, canvas, ctx, screen) => {
   const updateState = () => {
     evalAnswers()
     updateScore(state.score)
-
     state.circles.map(drawCircle)
   }
 
