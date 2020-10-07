@@ -10,7 +10,7 @@ const initialState = {
   correctRatio: 0,
   score: 500,
   tries: 2,
-  moveTime: 1000,
+  moveTime: 8000,
   fails: 0,
   velocityChangeProbablity: 0.3,
   directionChangeProbablity: 0.3,

@@ -59,7 +59,6 @@ export const instruction1 = {
     <br>
     Drücken Sie <kbd>Leertaste</kbd> um zum nächsten Feld zu gelangen  
     </p>
-
     `,
 
   responses: {
