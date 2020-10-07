@@ -25,7 +25,7 @@ const MOT = new lab.flow.Sequence({
       motCanvasScreen,
       renderFunction: renderMot({ ...state, isProbe: true }),
       responses: {
-        'keypress(Space)': 'response'
+        'keypress(s)': 'skip'
       }
     }),
     new lab.html.Screen(instruction4),
@@ -33,10 +33,10 @@ const MOT = new lab.flow.Sequence({
       motCanvasScreen,
       renderFunction: renderMot(state),
       responses: {
-        'keypress(Space)': 'response'
+        'keypress(s)': 'skip'
       }
     }),
-    new lab.html.Screen(pointsScreen),
+    new lab.html.Screen(pointsScreen(state)),
     new lab.html.Screen(finalScreen)
   ]
 })
@@ -44,7 +44,7 @@ const MOT = new lab.flow.Sequence({
 MOT.run()
 
 MOT.on('end', () => {
-  if (scriptExists('jatos')) {
+  if (jatos) {
     jatos.submitResultData({ score: state.score })
     jatos.endStudy()
   }

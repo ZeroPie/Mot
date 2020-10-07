@@ -106,7 +106,7 @@ export const motCanvasScreen = {
   }
 }
 
-export const pointsScreen = {
+export const pointsScreen = state => ({
   title: 'Ende',
   content: `
     <p>
@@ -125,14 +125,13 @@ export const pointsScreen = {
   plugins: [
     new CustomJs(() => {
       const scoreElement = document.getElementById('score')
-      console.log(scoreElement)
-      console.log(state.score)
+      scoreElement.innerHTML = state.score
     })
   ],
   responses: {
     'keypress(Space)': 'response'
   }
-}
+})
 
 export const finalScreen = {
   title: 'Danke',
