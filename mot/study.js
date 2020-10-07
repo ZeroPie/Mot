@@ -20,7 +20,9 @@ sessionStorage.data = JSON.stringify({ name: '', score: 0 })
 
 if (jatos) {
   jatos.onLoad(() => {
-    state.moveTime = jatos.studyJsonInput.time || state.moveTime
+    if (jatos.studyJsonInput) {
+      state.moveTime = jatos.studyJsonInput.time || state.moveTime
+    }
     const MOT = new lab.flow.Sequence({
       content: [
         new lab.html.Form(participantInfo),
