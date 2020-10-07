@@ -72,7 +72,7 @@ export const instruction2 = {
     <p>
     <br> 
     <br>
-    Wenn Sie fragen haben, merken Si e sich an den Leiter des Experiments
+    Wenn Sie fragen haben, melden Sie sich an den Leiter des Experiments
     <br>
     <br>
     Drücken Sie <kbd>Leertaste</kbd> um zum nächsten Feld zu gelangen
