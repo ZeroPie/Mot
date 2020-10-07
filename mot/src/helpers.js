@@ -173,3 +173,17 @@ export const makeFullScreenContainer = () => {
   main.classList.add('-frameless')
   return containerEle
 }
+
+export const enterFullScreen = () => {
+  const docEle = document.documentElement
+
+  if (docEle.requestFullscreen) {
+    docEle.requestFullscreen()
+  } else if (docEle.mozRequestFullScreen) {
+    docEle.mozRequestFullScreen()
+  } else if (docEle.webkitRequestFullScreen) {
+    docEle.webkitRequestFullScreen()
+  } else if (docEle.msRequestFullscreen) {
+    docEle.msRequestFullscreen()
+  }
+}

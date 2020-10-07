@@ -1,5 +1,35 @@
 import FullScreen from './FullScreen.js'
 import CustomJs from './CustomJS.js'
+import { enterFullScreen } from './helpers.js'
+
+const setValue = e => {
+  let name = e.target.value
+  let prevData = JSON.parse(sessionStorage.data)
+  sessionStorage.data = JSON.stringify({ ...prevData, name })
+}
+
+const submitData = () => {
+  if (jatos) {
+    jatos.submitResultData(JSON.parse(sessionStorage.data))
+  }
+}
+
+export const participantInfo = {
+  content: `<form class='form'>
+      <label> Name </label>
+      <input type="text" name="participant-id" id="participant-id">
+      <button type="submit" id="start">Starten</button> 
+    </form>`,
+  plugins: [
+    new CustomJs(() => {
+      const startButton = document.getElementById('start')
+      const nameInput = document.getElementById('participant-id')
+      nameInput.addEventListener('input', setValue)
+      startButton.addEventListener('click', enterFullScreen)
+      startButton.addEventListener('click', submitData)
+    })
+  ]
+}
 
 export const instruction1 = {
   title: 'Anleitung',
@@ -31,7 +61,6 @@ export const instruction1 = {
     </p>
 
     `,
-  plugins: [new FullScreen()],
 
   responses: {
     'keypress(Space)': 'response'

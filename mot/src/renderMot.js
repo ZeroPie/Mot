@@ -19,7 +19,6 @@ import {
  * @param  {LabJsScreen} screen
  */
 export const renderMot = state => (ts, canvas, ctx, screen) => {
-  console.log(state)
   canvas.classList.add('canvas')
   const containerEle = makeFullScreenContainer()
 

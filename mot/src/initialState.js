@@ -2,6 +2,7 @@ const initialState = {
   velocity: 1,
   circles: [],
   answers: 0,
+  name: '',
   currentRound: 0,
   isRunning: true,
   animationFrameReq: '',
