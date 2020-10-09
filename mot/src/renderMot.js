@@ -41,7 +41,7 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
     state.fails = 0
     state.tries = 2
     state.velocity *= 1.05
-    state.score += 15
+    state.score += 11
   }
 
   const looseLife = () => {
@@ -162,15 +162,15 @@ export const renderMot = state => (ts, canvas, ctx, screen) => {
 
     const directionChangeId = setInterval(
       randomDirectionChange,
-      state.moveTime / 4
+      state.moveTime / 10
     )
     const velolcityChangeId = setInterval(
       randomVelocityChange,
-      state.moveTime / 4
+      state.moveTime / 7
     )
     setTimeout(() => stop(directionChangeId, velolcityChangeId), state.moveTime)
 
-    setTimeout(turnAllCirclesGreen, state.moveTime / 2)
+    setTimeout(turnAllCirclesGreen, state.moveTime / 5)
   }
 
   const turnAllCirclesGreen = () =>
