@@ -6,8 +6,12 @@ const resizeCanvas = () => {
 export const compose = (...functions) => args =>
   functions.reduceRight((arg, fn) => fn(arg), args)
 
-const createRandomPos = (min = 10, max = 600) =>
+const createRandomPosX = (min = 20, max = 1400) =>
   Math.trunc(Math.random() * (max - min) + min)
+
+
+const createRandomPosY = (min = 20, max = 800) =>
+Math.trunc(Math.random() * (max - min) + min)
 
 const direction = velocity => (Math.random() < 0.5 ? velocity * -1 : velocity)
 
@@ -38,9 +42,9 @@ export const createCircles = (length, velocity) =>
     i <= 2
       ? createCircle({
           id: i,
-          x: createRandomPos(),
-          y: createRandomPos(),
-          r: 10,
+          x: createRandomPosX(),
+          y: createRandomPosY(),
+          r: 20,
           vx: direction(velocity),
           vy: direction(velocity),
           color: 'blue',
@@ -49,9 +53,9 @@ export const createCircles = (length, velocity) =>
         })
       : createCircle({
           id: i,
-          x: createRandomPos(),
-          y: createRandomPos(),
-          r: 10,
+          x: createRandomPosX(),
+          y: createRandomPosY(),
+          r: 20,
           vx: direction(velocity),
           vy: direction(velocity),
           color: 'green',
