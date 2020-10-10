@@ -1,4 +1,3 @@
-import FullScreen from './FullScreen.js'
 import CustomJs from './CustomJS.js'
 import { enterFullScreen } from './helpers.js'
 
