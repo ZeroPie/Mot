@@ -54,11 +54,7 @@ if (jatos) {
     MOT.on('end', () => {
       let prevData = JSON.parse(sessionStorage.data)
       sessionStorage.data = JSON.stringify({ ...prevData, score: state.score })
-      jatos.endStudy(
-        JSON.parse(sessionStorage.data),
-        true,
-        'everything worked fine'
-      )
+      jatos.endStudy(JSON.parse(sessionStorage.data), true, sessionStorage.data)
     })
   })
 }
