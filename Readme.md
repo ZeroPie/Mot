@@ -11,3 +11,12 @@ Copy study files your local jatos
 ```
 docker cp mot container_name_here:/opt/docker/study_assets_root
 ```
+
+TODO:
+
+docker compose
+
+```
+docker build --tag jatosmot .
+docker-compose up
+```
