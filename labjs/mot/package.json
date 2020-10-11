@@ -19,7 +19,13 @@
   "homepage": "https://github.com/ZeroPie/MOT#readme",
   "devDependencies": {
     "eslint": "^7.10.0",
-    "prettier": "2.1.2",
+    "install": "^0.13.0",
+    "npm": "^6.14.8",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-html-root-syntax": "0.0.3",
     "prettier-standard": "16.4.1"
+  },
+  "dependencies": {
+    "lab.js": "^20.1.1"
   }
 }
