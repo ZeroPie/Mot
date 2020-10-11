@@ -11,7 +11,7 @@ import {
   pointsScreen,
   finalScreen
 } from './src/screens.js'
-import { scriptExists } from './src/helpers'
+
 import { renderMot } from './src/renderMot.js'
 import initialState from './src/initialState.js'
 
@@ -20,13 +20,11 @@ const skipOnS = { 'keypress(s)': 'skip' }
 
 sessionStorage.data = JSON.stringify({ name: '', score: 0 })
 
-if (scriptExists('jatos')) {
-  jatos.onLoad(() => {
-    if (jatos.studyJsonInput) {
-      state.moveTime = jatos.studyJsonInput.time || state.moveTime
-    }
-  })
-}
+jatos.onLoad(() => {
+  if (jatos.studyJsonInput) {
+    state.moveTime = jatos.studyJsonInput.time || state.moveTime
+  }
+})
 
 const MOT = new flow.Sequence({
   content: [
