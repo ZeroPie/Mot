@@ -32,3 +32,14 @@ if only on local
 ```
 npx parcel study/index.html
 ```
+
+```
+docker run \
+    --name mot \
+    -t \
+    -d \
+    -e ENV_VAR=test \
+    -p 1234:1234 \
+    -v `pwd`:/ \
+    mot npx parcel --public-url ./ study/index.html
+```
