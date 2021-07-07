@@ -9,9 +9,8 @@ export const compose = (...functions) => args =>
 const createRandomPosX = (min = 20, max = 1400) =>
   Math.trunc(Math.random() * (max - min) + min)
 
-
 const createRandomPosY = (min = 20, max = 800) =>
-Math.trunc(Math.random() * (max - min) + min)
+  Math.trunc(Math.random() * (max - min) + min)
 
 const direction = velocity => (Math.random() < 0.5 ? velocity * -1 : velocity)
 

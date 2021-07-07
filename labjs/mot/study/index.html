@@ -6,15 +6,9 @@
     <!-- viewport setup -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- lab.js and libraries -->
-    <script src="lib/lab.js" data-labjs-script="library"></script>
-    <script src="lib/lab.fallback.js" data-labjs-script="fallback"></script>
-    <link rel="stylesheet" href="lib/lab.css" />
-    <link rel="stylesheet" href="src/canvas.css" />
-    <script src="jatos.js"></script>
-    <!-- actual experiment code -->
-    <script type="module" src="src/helpers.js"></script>
-    <script type="module" src="src/renderMot.js"></script>
-    <script type="module" src="study.js"></script>
+    <link rel="stylesheet" href="lib/lab.css" type="text/css" />
+    <link rel="stylesheet" href="src/canvas.css" type="text/css" />
+    <script src="#jatos.js"></script>
   </head>
   <body>
     <div class="container fullscreen" id="container">
@@ -37,6 +31,8 @@
             <span class="text-muted">please wait a moment</span>
           </p>
         </div>
+
+        <script src="study.js"></script>
       </main>
     </div>
   </body>
